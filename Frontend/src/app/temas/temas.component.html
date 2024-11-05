@@ -1,0 +1,31 @@
+<div id="container">
+  <header>
+    <h1>Menu de temas</h1>
+  </header>
+  
+  <h2 *ngIf="!editMode">Añadir Tema </h2>
+  <h2 *ngIf="editMode">Editar Tema</h2> <br>
+  
+  <form [formGroup]="temaForm" (ngSubmit)="createOrUpdateTema()">
+    <label for="nombre">Nombre: </label><br>
+    <input id="nombre" formControlName="nombre">
+    <br><br>
+    
+    <label for="descripcion">descripcion:</label>
+    <br>
+    <textarea id="descripcion" rows="10" cols="40" formControlName="descripcion" type="string"></textarea>
+    <br><br>
+    
+    <button type="submit">{{ editMode ? 'Actualizar Tema' : 'Crear Tema' }}</button> &nbsp;
+    <button *ngIf="editMode" type="button" (click)="cancelEdit()">Cancelar</button>
+  </form>
+  <br><br>
+
+  <h2>{{ editMode ? '' : 'Lista de Temas' }}</h2>
+  <br>
+  <div *ngFor="let tema of temas">
+    <p>{{ tema.nombre }}</p>
+    <button *ngIf="tema.id !== undefined" (click)="editTema(tema)">Editar</button>  &nbsp;
+    <button *ngIf="tema.id !== undefined" (click)="deleteTema(tema)">Borrar</button><br><br>
+  </div><br>
+</div>

@@ -1,0 +1,27 @@
+<div id="container">
+  <header>
+    <h1>Menu de alumnos</h1>
+  </header>
+  
+  <h2 *ngIf="!editMode">Añadir Alumno</h2>
+  <h2 *ngIf="editMode">Editar Alumno</h2> <br>
+  
+  <form [formGroup]="alumnoForm" (ngSubmit)="createOrUpdateAlumno()">
+    <label for="nombre">Nombre: </label><br>
+    <input id="nombre" formControlName="nombre">
+    <br>
+    
+    <label for="fechaNacimiento">Fecha de Nacimiento:</label><br>
+    <input id="fechaNacimiento" formControlName="fechaNacimiento" type="date"><br><br>
+    
+    <button type="submit">{{ editMode ? 'Actualizar Alumno' : 'Crear Alumno' }}</button> &nbsp;
+    <button *ngIf="editMode" type="button" (click)="cancelEdit()">Cancelar</button>
+  </form><br><br>
+
+  <h2>{{ editMode ? '' : 'Lista de alumnos' }}</h2><br>
+  <div *ngFor="let alumno of alumnos">
+    <p>{{ alumno.nombre }} - {{ alumno.fechaNacimiento | date }}</p>
+    <button *ngIf="alumno.id !== undefined" (click)="editAlumno(alumno)">Editar</button>  &nbsp;
+    <button *ngIf="alumno.id !== undefined" (click)="deleteAlumno(alumno)">Borrar</button><br><br>
+  </div><br>
+</div>

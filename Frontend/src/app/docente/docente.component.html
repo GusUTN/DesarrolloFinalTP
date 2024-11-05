@@ -1,0 +1,43 @@
+<div id="container">
+  <header>
+    <h1>Menu de docentes</h1>
+  </header>
+  
+  <h2 *ngIf="!editMode">Añadir Docente</h2>
+  <h2 *ngIf="editMode">Editar Docente</h2> <br>
+  
+  <form [formGroup]="docenteForm" (ngSubmit)="createOrUpdateDocente()">
+    <label for="nombre">Nombre: </label><br>
+    <input id="nombre" formControlName="nombre">
+    <br>
+    
+    <label for="legajo">legajo:</label><br>
+    <input id="legajo" formControlName="legajo" type="number"><br><br>
+    
+    <button type="submit">{{ editMode ? 'Actualizar Docente' : 'Crear Docente' }}</button> &nbsp;
+    <button *ngIf="editMode" type="button" (click)="cancelEdit()">Cancelar</button>
+  </form><br><br>
+
+  <div *ngIf="editMode">
+    <h3>Cursos actuales del docente:</h3><br>
+    <p *ngIf="cursosDocente.length === 0">Este docente no tiene cursos asignados actualmente.</p>
+    <ul *ngIf="cursosDocente.length > 0">
+      <li *ngFor="let curso of cursosDocente">
+        <strong>Tema:</strong> {{ curso.tema.nombre }}<br><br>
+        <strong>Fecha Inicio:</strong> {{ curso.fechaInicio | date:'dd/MM/yyyy' }}<br>
+        <strong>Fecha Fin:</strong> {{ curso.fechaFin | date:'dd/MM/yyyy' }}<br><br>
+        <strong>Alumnos:</strong><br>
+        <ul>
+          <li *ngFor="let alumno of curso.alumnos">{{ alumno.nombre }}</li>
+        </ul><br>
+      </li>
+    </ul>
+  </div>
+
+  <h2>{{ editMode ? '' : 'Lista de docentes' }}</h2><br>
+  <div *ngFor="let docente of docentes">
+    <p>{{ docente.nombre }}</p>
+    <button *ngIf="docente.id !== undefined" (click)="editDocente(docente)">Editar</button>  &nbsp;
+    <button *ngIf="docente.id !== undefined" (click)="deleteDocente(docente)">Borrar</button><br><br>
+  </div><br>
+</div>

@@ -1,0 +1,18 @@
+*{ /* regla general para todo el archivo */
+    margin: 0px;
+    padding: 0px;
+}
+
+#container{ /* selector de id (#) */ /* no se puede repetir el id asique esto es unico  */
+    width: 80%;
+    margin: 0px auto;
+}
+
+header{  /* todo lo que ponga con etiqueta header aparece con esta conf */
+    height: 100px;
+    width: 100%;
+    margin: 0px;
+    text-align: center;
+    line-height: 10px;
+    color: black; 
+}

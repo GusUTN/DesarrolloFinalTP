@@ -1,0 +1,87 @@
+
+<div id="container">
+  <header>
+    <h1>Menu de cursos</h1>
+  </header>
+
+  <h2>{{ modoEdicion ? 'Editar' : 'Crear Nuevo' }} Curso</h2><br>
+
+  <form (ngSubmit)="createOrUpdateCurso()">
+    <div>
+      <label for="fechaInicio">Fecha de Inicio:</label><br>
+      <input type="date" id="fechaInicio" [(ngModel)]="nuevoCurso.fechaInicio" name="fechaInicio" required>
+    </div>
+    <br>
+    <div>
+      <label for="fechaFin">Fecha de Fin:</label><br>
+      <input type="date" id="fechaFin" [(ngModel)]="nuevoCurso.fechaFin" name="fechaFin" required>
+    </div>
+    <br>
+    <div>
+      <label for="precio">Precio:</label><br>
+      <input type="number" id="precio" [(ngModel)]="nuevoCurso.precio" name="precio" required>
+    </div>
+    <br>
+    <div>
+      <label for="docente">Docente:</label><br>
+      <select id="docente" [(ngModel)]="nuevoCurso.docente.id" name="docente" required>
+        <option *ngFor="let docente of docentes" [value]="docente.id">{{docente.nombre}}</option>
+      </select>
+    </div>
+    <br>
+    <div>
+      <label for="tema">Tema:</label><br>
+      <select id="tema" [(ngModel)]="nuevoCurso.tema.id" name="tema" required>
+        <option *ngFor="let tema of temas" [value]="tema.id">{{tema.nombre}}</option>
+      </select>
+    </div>
+    <br>
+    <div>
+      <label>Alumnos:</label><br>
+      <div *ngFor="let alumno of alumnos">
+        <input type="checkbox" [value]="alumno.id" *ngIf="alumno.id !== undefined" [checked]="isAlumnoSeleccionado(alumno.id)" (change)="toggleAlumnoSeleccion(alumno.id)">
+        {{alumno.nombre}}
+      </div>
+      <br>
+    </div>
+    <button type="submit">{{ modoEdicion ? 'Actualizar' : 'Crear' }} Curso</button>
+    <br><br>
+    <button type="button" (click)="cancelEdit()" *ngIf="modoEdicion">Cancelar Edición</button>
+    <br><br>
+  </form>
+
+ 
+  <div *ngIf="!modoEdicion"> 
+    <h3>Buscar cursos por fecha de fin</h3><br>
+    <label for="fechaFinBusqueda">Fecha de Fin:</label><br> 
+    <input type="date" id="fechaFinBusqueda" [(ngModel)]="fechaFinBusqueda" name="fechaFinBusqueda">   &nbsp;
+    <button type="button" (click)="buscarCursosPorFechaFin()">Buscar</button>  &nbsp;
+    <button type="button" (click)="cargarCursos()">Volver</button>
+  </div><br>
+
+  <h2>{{ modoEdicion ? '' : 'Cursos Existentes' }}</h2>
+  <br>
+  <div *ngFor="let curso of cursos">
+    <br>
+    <p>
+      <b>Curso:</b> {{ curso.tema.nombre }} - <b>Docente:</b> {{curso.docente.nombre}} -
+      <b>Alumnos:</b> <span *ngFor="let alumno of curso.alumnos"> {{ alumno.nombre }}</span><br>
+      <b>Fecha Inicio:</b> {{ curso.fechaInicio | date:'dd/MM/yyyy' }} - 
+      <b>Fecha Fin:</b> {{ curso.fechaFin | date:'dd/MM/yyyy' }} - 
+      <b>Precio:</b> {{ curso.precio | currency:'USD':'symbol':'1.2-2' }}
+      <button (click)="editarCurso(curso)">Editar</button>  &nbsp;
+      <button (click)="eliminarCurso(curso.id)">Eliminar</button>
+    </p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
